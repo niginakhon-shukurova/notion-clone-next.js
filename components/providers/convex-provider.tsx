@@ -12,19 +12,8 @@ if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL)
 
 export default function ConvexClientProvider({ children }: { children: ReactNode }) {
- 
-  const { getToken, ...rest } = useClerkAuth()
-
-  const authWrapper = {
-    ...rest,
-    getToken: (opts?: Parameters<typeof getToken>[0]) => getToken({ ...opts, template: 'convex' }),
-  }
-
   return (
-    <ConvexProviderWithClerk
-      client={convex}
-      useAuth={() => authWrapper} 
-    >
+    <ConvexProviderWithClerk client={convex} useAuth={useClerkAuth}>
       {children}
     </ConvexProviderWithClerk>
   )
